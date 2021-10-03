@@ -9,3 +9,7 @@ The dotfiles from my i3 configuration and most used programs.
 ![2021-10-03_17-29](https://user-images.githubusercontent.com/72524680/135764102-2aed78ac-8de1-4f74-b148-a39a83db5416.png)
 
 ![2021-10-03_17-28](https://user-images.githubusercontent.com/72524680/135764098-bda6baad-f611-49c7-ae10-9fe40ccce587.png)
+
+## Wallpapers
+
+Because I downloaded most of these from sites various websites over the years, I have no way of knowing if there is a copyright on these images. If you find an image hosted in this repository that is yours and of limited use, please let me know and I will remove it.
