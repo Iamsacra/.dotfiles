@@ -288,25 +288,11 @@ alias personal='cp -Rf /personal/* ~'
 
 [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
 
+#enable starship
 eval "$(starship init bash)"
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
+# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#   exec tmux
+# fi
 
-# reporting tools - install when not installed
-#neofetch
-#screenfetch
-#alsi
-#paleofetch
-#fetch
-#hfetch
-#sfetch
-#ufetch
-#ufetch-arco
-#pfetch
-#sysinfo
-#sysinfo-retro
-#cpufetch
-#colorscript random
 
