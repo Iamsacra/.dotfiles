@@ -373,16 +373,38 @@ globalkeys = gears.table.join(
     awful.util.spawn("flatpak run org.mozilla.firefox") end,
     	{description = "firefox", group = "launcher"}),
 
+    -- Thunar
+    awful.key({ modkey },            "f",     function () 
+    awful.util.spawn("thunar") end,
+    	{description = "thunar", group = "launcher"}),
+
     -- Logout
     awful.key({ modkey, "Shift"   }, "e",     function () 
     awful.util.spawn("/home/sacra/.local/bin/logout.sh") end,
     	{description = "logout menu", group = "awesome"}),
     
-    -- Logout
+    -- Screenshot
     awful.key({ modkey, "Shift"   }, "s",     function () 
     awful.util.spawn("flameshot launcher") end,
     	{description = "screenshot", group = "awesome"}),
+   
+    -- Vol Up
+    awful.key({ modkey, "Shift"   }, "+",     function () 
+    awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ +5%") end,
+    	{description = "volume up/down", group = "awesome"}),
+    awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ +5%")end),
     
+    -- Vol Down
+    awful.key({ modkey, "Shift"   }, "-",     function () 
+    awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ -5%") end,
+    	{description = "volume up/down", group = "awesome"}),
+    awful.key({}, "XF86AudioLowerVolume", function() awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ -5%")end),
+
+    awful.key({ }, "XF86MonBrightnessDown", function ()
+        awful.util.spawn("xbacklight -dec 15") end),
+    awful.key({ }, "XF86MonBrightnessUp", function ()
+        awful.util.spawn("xbacklight -inc 15") end),
+
   awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run {
@@ -400,7 +422,7 @@ globalkeys = gears.table.join(
 
 
 clientkeys = gears.table.join(
-    awful.key({ modkey,           }, "f",
+    awful.key({ modkey, "Shift"  }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
@@ -584,6 +606,9 @@ client.connect_signal("manage", function (c)
     end
 end)
 
+-- Gaps
+beautiful.useless_gap = 3
+
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
@@ -634,10 +659,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 --Autorun program
-awful.spawn.once("nm-applet")
 awful.spawn.with_shell("compton --backend glx --paint-on-overlay --vsync opengl-swc")
 awful.spawn.with_shell("/home/sacra/.local/bin/xrandr.sh")
 os.execute("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &")
 awful.spawn.with_shell("xrdb source .config/X11/Xdefaults")
--- volumeicon
--- nextcloud
+awful.spawn.with_shell("~/.config/awesome/autorun.sh")
+--awful.spawn.once("com.nextcloud.desktopclient.nextcloud")
