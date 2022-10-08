@@ -365,13 +365,23 @@ globalkeys = gears.table.join(
 
     -- Prompt
     awful.key({ modkey },            "d",     function () 
-    awful.util.spawn("dmenu_run -fn 'Ubuntu-16' -sb '#535d6c'") end,
+    awful.util.spawn("dmenu_run -i -fn 'Ubuntu-16' -sb '#535d6c'") end,
     	{description = "run prompt", group = "launcher"}),
 
     -- Firefox
     awful.key({ modkey },            "b",     function () 
     awful.util.spawn("flatpak run org.mozilla.firefox") end,
     	{description = "firefox", group = "launcher"}),
+
+    -- Thunderbird
+    awful.key({ modkey },            "e",     function () 
+    awful.util.spawn("flatpak run org.mozilla.Thunderbird") end,
+    	{description = "thunderbird", group = "launcher"}),
+
+    -- Obsidian
+    awful.key({ modkey },            "i",     function () 
+    awful.util.spawn("flatpak run md.obsidian.Obsidian") end,
+    	{description = "obsidian", group = "launcher"}),
 
     -- Thunar
     awful.key({ modkey },            "f",     function () 
