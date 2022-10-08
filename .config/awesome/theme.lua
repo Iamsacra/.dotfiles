@@ -13,6 +13,7 @@ local theme = {}
 
 theme.font          = "JetBrainsMono Nerd Font Mono 11"
 
+-- Default
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
 theme.bg_urgent     = "#ff0000"
@@ -25,10 +26,28 @@ theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = dpi(0)
-theme.border_width  = dpi(1)
+theme.border_width  = dpi(2)
 theme.border_normal = "#000000"
 theme.border_focus  = "#535d6c"
 theme.border_marked = "#91231c"
+
+-- Tokyo
+--theme.bg_normal     = "#1a1b26"       
+--theme.bg_focus      = "#4e5173"       
+--theme.bg_urgent     = "#F7768E"        
+--theme.bg_minimize   = "#1a1b26"        
+--theme.bg_systray    = theme.bg_normal  
+--                                       
+--theme.fg_normal     = "#acb0d0"        
+--theme.fg_focus      = "#acb0d0"             
+--theme.fg_urgent     = "#acb0d0"             
+--theme.fg_minimize   = "#acb0d0"             
+--                                            
+--theme.useless_gap   = dpi(0)                
+--theme.border_width  = dpi(2)                
+--theme.border_normal = "#000000"             
+--theme.border_focus  = "#4e5173"             
+--theme.border_marked = "#91231c"
 
 -- There are other variable sets
 -- overriding the default one when
