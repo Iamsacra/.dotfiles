@@ -379,7 +379,7 @@ globalkeys = gears.table.join(
     	{description = "thunderbird", group = "launcher"}),
 
     -- Obsidian
-    awful.key({ modkey },            "i",     function () 
+    awful.key({ modkey },            "o",     function () 
     awful.util.spawn("flatpak run md.obsidian.Obsidian") end,
     	{description = "obsidian", group = "launcher"}),
 
@@ -607,7 +607,7 @@ client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
     -- if not awesome.startup then awful.client.setslave(c) end
-
+    c.size_hints_honor = false
     if awesome.startup
       and not c.size_hints.user_position
       and not c.size_hints.program_position then
@@ -617,7 +617,7 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Gaps
-beautiful.useless_gap = 3
+beautiful.useless_gap = 0
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
