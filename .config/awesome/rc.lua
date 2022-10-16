@@ -379,7 +379,7 @@ globalkeys = gears.table.join(
     	{description = "thunderbird", group = "launcher"}),
 
     -- Obsidian
-    awful.key({ modkey },            "o",     function () 
+    awful.key({ modkey },            "i",     function () 
     awful.util.spawn("flatpak run md.obsidian.Obsidian") end,
     	{description = "obsidian", group = "launcher"}),
 
