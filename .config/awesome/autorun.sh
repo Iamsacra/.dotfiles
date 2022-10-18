@@ -1,6 +1,6 @@
 #!/bin/sh
 
-apps='volumeicon cbatticon nm-applet'
+apps='cbatticon nm-applet'
 
 for app in $apps 
  do

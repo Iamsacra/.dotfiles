@@ -126,7 +126,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+mytextclock = wibox.widget.textclock("%b %d, %H:%M ",10)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -181,6 +181,18 @@ local function set_wallpaper(s)
 end
 
 -- Widgets
+
+--local volume = lain.widget.pulse{
+--    settings = function()
+--        widget:set_markup("vol: [" .. volume_now.left.. "%] ")
+--    end
+--}
+
+local volume = lain.widget.pulse{
+    settings = function()
+        widget:set_markup("vol: [" .. volume_now.left.. "%] ")
+    end
+}
 
 local cpu = lain.widget.cpu {
     settings = function()
@@ -258,6 +270,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            volume.widget,
             cpu.widget,
             mymem,
             mykeyboardlayout,
@@ -373,6 +386,15 @@ globalkeys = gears.table.join(
     awful.util.spawn("flatpak run org.mozilla.firefox") end,
     	{description = "firefox", group = "launcher"}),
 
+    -- Centered calendar
+    awful.key({ modkey },            "c", awful.placement.centered,    function () 
+        awful.util.spawn("urxvt -fn 'xft:Mononoki Nerd Font:size=10' --hold --geometry 66x37 -e ncal -C -y", {
+                placement = awful.placement.top_right,
+                ontop = true,
+                floating = true
+        }) end,
+    	{description = "calendar", group = "launcher"}),
+    
     -- Thunderbird
     awful.key({ modkey },            "e",     function () 
     awful.util.spawn("flatpak run org.mozilla.Thunderbird") end,
@@ -385,8 +407,8 @@ globalkeys = gears.table.join(
 
     -- Thunar
     awful.key({ modkey },            "f",     function () 
-    awful.util.spawn("thunar") end,
-    	{description = "thunar", group = "launcher"}),
+    awful.util.spawn("urxvt -e ranger") end,
+    	{description = "ranger", group = "launcher"}),
 
     -- Logout
     awful.key({ modkey, "Shift"   }, "e",     function () 
@@ -410,6 +432,13 @@ globalkeys = gears.table.join(
     	{description = "volume up/down", group = "awesome"}),
     awful.key({}, "XF86AudioLowerVolume", function() awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ -5%")end),
 
+    -- No Vol
+    awful.key({ modkey, "Shift"   }, "0",     function () 
+    awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ 0") end,
+    	{description = "no volume", group = "awesome"}),
+    awful.key({}, "XF86AudioMute", function() awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ 0")end),
+
+    -- Brightness Controls
     awful.key({ }, "XF86MonBrightnessDown", function ()
         awful.util.spawn("xbacklight -dec 15") end),
     awful.key({ }, "XF86MonBrightnessUp", function ()
