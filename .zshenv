@@ -4,7 +4,7 @@
 export PATH="$HOME/.local/share/flatpak/exports/bin:$PATH"
 export PATH="$HOME/.local/Applications:$PATH"
 export PATH="/var/lib/flatpak/exports/bin:$PATH"
-
+export PATH="$HOME/.local/bin:$PATH"
 
 # Default programs
 export EDITOR="nvim"

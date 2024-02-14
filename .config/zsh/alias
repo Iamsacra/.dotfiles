@@ -8,16 +8,27 @@ alias ls='ls --color'
 alias la='ls -la'
 alias ll='ls -l'
 alias py='python3'
-
-alias autoremove='sudo apt autoremove'
-alias remove='sudo apt remove'
-
+alias source_all='source ~/.zshenv && source ~/.config/zsh/.zshrc && source ~/.config/zsh/alias && source ~/.config/zsh/flatpakalias && source ~/.config/zsh/functions'
 
 # Complete update system
 if command -v apt >/dev/null 2>&1; then
     alias up='sudo apt update && sudo apt upgrade -y && flatpak update -y'
 else
     alias up='sudo dnf upgrade -y && flatpak update -y'
+fi
+
+# Remove Package command
+if command -v apt >/dev/null 2>&1; then
+    alias remove='sudo apt remove'
+else
+    alias remove='sudo dnf remove'
+fi
+
+# Autoremove Package command
+if command -v apt >/dev/null 2>&1; then
+    alias autoremove='sudo apt autoremove'
+else
+    alias autoremove='sudo dnf autoremove'
 fi
 
 # Update Package command
