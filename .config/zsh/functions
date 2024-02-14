@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Ranger
+r() {
+  ranger --choosedir=$HOME/.rangerdir;
+  LASTDIR=`cat $HOME/.rangerdir`;
+  cd "$LASTDIR";
+  rm $HOME/.rangerdir
+}
+ bindkey -s '^o' 'r\n'
+
+# Use modern completion system
+autoload -Uz compinit
+compinit
+
+# Basic auto/tab complete
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)	

@@ -1,0 +1,59 @@
+#!/bin/sh
+
+# Alias
+alias q='exit'
+alias v='nvim'
+alias purge='sudo apt purge'
+alias ls='ls --color'
+alias la='ls -la'
+alias ll='ls -l'
+alias py='python3'
+
+alias autoremove='sudo apt autoremove'
+alias remove='sudo apt remove'
+
+
+# Complete update system
+if command -v apt >/dev/null 2>&1; then
+    alias up='sudo apt update && sudo apt upgrade -y && flatpak update -y'
+else
+    alias up='sudo dnf upgrade -y && flatpak update -y'
+fi
+
+# Update Package command
+if command -v apt >/dev/null 2>&1; then
+    alias update='sudo apt update'
+else
+    alias update='sudo dnf update'
+fi
+
+# Upgrade Package command
+if command -v apt >/dev/null 2>&1; then
+    alias upgrade='sudo apt upgrade'
+else
+    alias upgrade='sudo dnf upgrade'
+fi
+
+# Install Package command
+if command -v apt >/dev/null 2>&1; then
+    alias install='sudo apt install'
+else
+    alias install='sudo dnf install'
+fi
+
+#neofetch command
+alias neo='neofetch'
+
+# ls command
+#if command -v eza >/dev/null 2>&1; then
+#    alias ls='eza -gh'
+#else
+#    alias ls='exa -gh'
+#fi
+
+# Battery command
+if command -v upower >/dev/null 2>&1; then
+    alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0| grep -E "state|to\ full | percentage"'
+else
+    alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT1| grep -E "state|to\ full | percentage"'
+fi

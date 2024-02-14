@@ -1,12 +1,12 @@
-# .dotfiles 
+# .dotfiles
 
 Personal dotfiles from a new to programming person and network and linux fanboy. nothing special, some minor alterations to these programs:
+
 * Awesome Window Manager
 * i3
 * Neovim
 * zsh
 * ranger
-
 
 ## Wallpapers
 
