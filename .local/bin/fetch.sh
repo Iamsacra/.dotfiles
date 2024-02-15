@@ -29,28 +29,33 @@ kernel=$(uname -r)
 shell=$(basename $SHELL)
 
 # Package manager
-if [ -x "$(command -v dpkg)" ]; then
-    packages=$(dpkg-query -f '${binary:Package}\n' -W | wc -l)
-elif [ -x "$(command -v rpm)" ]; then
+if command -v apt >/dev/null 2>&1; then
+    packages=$(apt list --installed | wc -l)
+elif command -v rpm >/dev/null 2>&1; then
     packages=$(rpm -qa | wc -l)
-elif [ -x "$(command -v pacman)" ]; then
+elif command -v pacman >/dev/null 2>&1; then
     packages=$(pacman -Qq | wc -l)
-elif [ -x "$(command -v emerge)" ]; then
+elif command -v emerge >/dev/null 2>&1; then
     packages=$(qlist -I | wc -l)
 else
     packages="Unknown"
 fi
 
 # Print
-echo "╭─"
-echo "│           ${bold}Software${normal}"
-echo "│ ➔ ${bold}Uptime${normal}    $uptime"
-echo "│ ➔ ${bold}OS${normal}        $os"
-echo "│ ➔ ${bold}Kernel${normal}    $kernel"
-echo "│ ➔ ${bold}Shell${normal}     $shell"
-echo "│ ➔ ${bold}Packages${normal}  $packages"
-echo "│                                   "
-echo "│           ${bold}Hardware${normal}"
-echo "│ ➔ ${bold}Memory${normal}    $memory_used MB / $memory_total MB"
-echo "│ ➔ ${bold}Disk${normal}      $disk"
-echo "╰─"
+echo "   _____       ╭─"
+echo "  /     \      │           ${bold}Info${normal}"
+echo "/- (*) |*)\    │ ➔ ${bold}Username${normal}    $username"
+echo "|/\.  _>/\|    │ ➔ ${bold}Machine${normal}     $machine"
+echo "    \__/    |\ │                                   "
+echo "   _| |_   \-/ │           ${bold}Software${normal}"
+echo "  /|\__|\  //  │ ➔ ${bold}Uptime${normal}    $uptime"
+echo " |/|   |\\\//   │ ➔ ${bold}OS${normal}        $os"
+echo " |||   | ~'    │ ➔ ${bold}Kernel${normal}    $kernel"
+echo " ||| __|       │ ➔ ${bold}Shell${normal}     $shell"
+echo " /_\| ||       │ ➔ ${bold}Packages${normal}  $packages"
+echo " \_/| ||       │                                   "
+echo "   |7 |7       │           ${bold}Hardware${normal}"
+echo "   || ||       │ ➔ ${bold}Memory${normal}    $memory_used MB / $memory_total MB"
+echo "   || ||       │ ➔ ${bold}Disk${normal}      $disk"
+echo "   /\ \ \  fog ╰─"
+echo "  ^^^^ ^^^      "
