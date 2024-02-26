@@ -64,7 +64,13 @@ alias neo='neofetch'
 
 # Battery command
 if command -v upower >/dev/null 2>&1; then
-    alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0| grep -E "state|to\ full | percentage"'
+    bat_info=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
+    if [[ $bat_info == *"unknown"* ]]; then
+        alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT1'
+    else
+        alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0'
+    fi
 else
-    alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT1| grep -E "state|to\ full | percentage"'
+    alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT1'
 fi
+
