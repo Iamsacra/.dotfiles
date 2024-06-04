@@ -30,7 +30,7 @@ shell=$(basename $SHELL)
 
 # Package manager
 if command -v apt >/dev/null 2>&1; then
-    packages=$(apt list --installed | wc -l)
+    packages=$(apt list --installed 2>/dev/null | wc -l)
 elif command -v rpm >/dev/null 2>&1; then
     packages=$(rpm -qa | wc -l)
 elif command -v pacman >/dev/null 2>&1; then
@@ -49,7 +49,7 @@ echo "|/\.  _>/\|    │ ➔ ${bold}Machine${normal}     $machine"
 echo "    \__/    |\ │                                   "
 echo "   _| |_   \-/ │           ${bold}Software${normal}"
 echo "  /|\__|\  //  │ ➔ ${bold}Uptime${normal}    $uptime"
-echo " |/|   |\\\//   │ ➔ ${bold}OS${normal}        $os"
+echo " |/|   |\//    │ ➔ ${bold}OS${normal}        $os"
 echo " |||   | ~'    │ ➔ ${bold}Kernel${normal}    $kernel"
 echo " ||| __|       │ ➔ ${bold}Shell${normal}     $shell"
 echo " /_\| ||       │ ➔ ${bold}Packages${normal}  $packages"

@@ -52,15 +52,12 @@ else
     alias install='sudo dnf install'
 fi
 
-#neofetch command
-alias neo='neofetch'
 
-# ls command
-#if command -v eza >/dev/null 2>&1; then
-#    alias ls='eza -gh'
-#else
-#    alias ls='exa -gh'
-#fi
+if command -v eza >/dev/null 2>&1; then
+    alias ls='eza -gh'
+else
+    alias ls='exa -gh'
+fi
 
 # Battery command
 if command -v upower >/dev/null 2>&1; then
