@@ -71,3 +71,24 @@ else
     alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT1'
 fi
 
+# Backup alias
+alias backup='
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/SynologyDrive /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.vscode /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.dotnet /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/Games /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/share /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/state /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/tmp /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/VMshare /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/history /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.atlauncher.ATLauncher /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.realm667.Wolfenstein_Blade_of_Agony /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/md.obsidian.Obsidian /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/net.lutris.Lutris /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.diasurgical.DevilutionX /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.gnome.TwentyFortyEight /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.kde.kmymoney /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
+rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.zdoom.GZDoom /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app'
+
+

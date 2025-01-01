@@ -2,10 +2,13 @@
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/alias" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/alias"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/flatpakalias" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/flatpakalias"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/functions" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/functions"
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/prompt" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/prompt"
+
+fetch.sh
 
 # Prompt
 autoload -U colors && colors	# Load colors
-PROMPT="%B[ %~ ]%b $ "
+
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000

@@ -1,0 +1,123 @@
+# Standardized $0 handling
+0=${${ZERO:-${0:#$ZSH_ARGZERO}}:-${(%):-%N}}
+0=${${(M)0:#/*}:-$PWD/$0}
+typeset -gA Roundy
+Roundy[root]=${0:A:h}
+
+#
+# Options
+#
+: ${ROUNDY_COLORS_BG_EXITSTATUS_OK:=4}
+: ${ROUNDY_COLORS_FG_EXITSTATUS_OK:=255}  # Changed to white
+: ${ROUNDY_COLORS_BG_EXITSTATUS_NO:=1}
+: ${ROUNDY_COLORS_FG_EXITSTATUS_NO:=255}  # Changed to white
+: ${ROUNDY_EXITSTATUS_OK:=$'\uf00C '}
+: ${ROUNDY_EXITSTATUS_NO:=$'\uf00D '}
+
+: ${ROUNDY_COLORS_BG_TEXC:=3}
+: ${ROUNDY_COLORS_FG_TEXC:=255}
+: ${ROUNDY_TEXC_MIN_S:=4}
+: ${ROUNDY_TEXC_ICON:="▲"}
+
+: ${ROUNDY_COLORS_BG_USR:=2}
+: ${ROUNDY_COLORS_FG_USR=255}
+
+: ${ROUNDY_COLORS_BG_DIR:=0}
+: ${ROUNDY_COLORS_FG_DIR:=255}
+: ${ROUNDY_DIR_MODE:="full"}
+
+#
+# Get the current directory
+#
+roundy_get_usr() {
+  local usr
+  usr='%m'
+  printf -- '%s' " $usr "
+}
+
+#
+# Get the current directory
+#
+roundy_get_dir() {
+  local dir
+  case "$ROUNDY_DIR_MODE" in
+    full) dir='%~' ;;
+    short) dir=$(print -P '%~' | sed "s#\([^a-z]*[a-z]\)[^/]*/#\1/#g") ;;
+    dir-only|*) dir='%1~' ;;
+  esac
+  printf -- '%s' " $dir "
+}
+
+#
+# THE PROMPT
+#
+
+roundy_prompt_left() {
+  local p
+  local char_open=$'\ue0b6'
+  local char_close=$'\ue0b4'
+  local exit_color_bg="%(?|${ROUNDY_COLORS_BG_EXITSTATUS_OK}|${ROUNDY_COLORS_BG_EXITSTATUS_NO})"
+  local exit_color_fg="%(?|${ROUNDY_COLORS_FG_EXITSTATUS_OK}|${ROUNDY_COLORS_FG_EXITSTATUS_NO})"
+
+  p+="%F{${exit_color_bg}} "
+  p+="${char_open}"
+  p+="%K{${exit_color_bg}}"
+  p+="%F{${exit_color_fg}}"
+  p+="%{%(?|${ROUNDY_EXITSTATUS_OK}|${ROUNDY_EXITSTATUS_NO})%2G%}"
+
+  if [ -n "${Roundy[data_texc]}" ]; then
+    p+="%K{${ROUNDY_COLORS_BG_TEXC}}"
+  else
+    p+="%K{${ROUNDY_COLORS_BG_DIR}}"
+  fi
+  p+="%F{${exit_color_bg}}"
+  p+="%K{${ROUNDY_COLORS_BG_USR}}"
+  p+="${char_close}"
+  p+="%F{${ROUNDY_COLORS_FG_USR}}"
+  p+="${Roundy[data_usr]}"
+  p+="%k"
+  p+="%F{${ROUNDY_COLORS_BG_USR}}"
+  p+="%K{${ROUNDY_COLORS_BG_DIR}}"
+  p+="${char_close}"
+  p+="%f "
+
+  p+="%F{${ROUNDY_COLORS_FG_DIR}}"
+  p+="${Roundy[data_dir]}"
+  p+="%k"
+  p+="%F{${ROUNDY_COLORS_BG_DIR}}"
+  p+="${char_close}"
+  p+="%f "
+
+  Roundy[lprompt]=$p
+  typeset -g PROMPT=${Roundy[lprompt]}
+}
+
+
+roundy_draw_prompts() {
+  Roundy[data_usr]=$(roundy_get_usr)
+  Roundy[data_dir]=$(roundy_get_dir)
+
+  roundy_prompt_left
+}
+
+roundy_draw_gap() {
+  [[ -n ${Roundy[draw_gap]} ]] && print
+}
+
+roundy_preexec() {
+  Roundy[raw_texc]=$EPOCHSECONDS
+}
+
+roundy_precmd() {
+  roundy_draw_prompts
+  Roundy[raw_texc]=0
+}
+
+roundy_main() {
+  # Setup hooks
+  autoload -Uz add-zsh-hook
+  add-zsh-hook preexec roundy_preexec
+  add-zsh-hook precmd roundy_precmd
+}
+
+roundy_main "$@"
