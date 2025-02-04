@@ -72,23 +72,39 @@ else
 fi
 
 # Backup alias
-alias backup='
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/SynologyDrive /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.vscode /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.dotnet /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/Games /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/share /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/state /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/tmp /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/VMshare /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/history /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.local &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.atlauncher.ATLauncher /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.realm667.Wolfenstein_Blade_of_Agony /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/md.obsidian.Obsidian /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/net.lutris.Lutris /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.diasurgical.DevilutionX /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.gnome.TwentyFortyEight /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.kde.kmymoney /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app &&
-rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.zdoom.GZDoom /media/sacra/9fbf24b0-4565-4e52-9c49-12b967aba900/Backups/.var/app'
+backup() {
+    trap 'unset location' EXIT INT TERM
+    
+    if [ -z "$1" ]; then
+        read -p "Please provide a backup location: " location
+    else
+        location=$1
+    fi
+
+    if [ ! -d "$location" ]; then
+        echo "Error: $location is not a valid directory."
+        return 1
+    fi
+  
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/Nextcloud "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/Downloads "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/Desktop "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.vscode "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.dotnet "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/Games "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/share "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/state "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/tmp "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/VMshare "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/history "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.atlauncher.ATLauncher "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.realm667.Wolfenstein_Blade_of_Agony "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/md.obsidian.Obsidian "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/net.lutris.Lutris "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.diasurgical.DevilutionX "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.gnome.TwentyFortyEight "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.kde.kmymoney "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.zdoom.GZDoom "$location/Backups/.var/app"
+}
 
 

@@ -8,9 +8,9 @@ Roundy[root]=${0:A:h}
 # Options
 #
 : ${ROUNDY_COLORS_BG_EXITSTATUS_OK:=4}
-: ${ROUNDY_COLORS_FG_EXITSTATUS_OK:=255}  # Changed to white
+: ${ROUNDY_COLORS_FG_EXITSTATUS_OK:=255} 
 : ${ROUNDY_COLORS_BG_EXITSTATUS_NO:=1}
-: ${ROUNDY_COLORS_FG_EXITSTATUS_NO:=255}  # Changed to white
+: ${ROUNDY_COLORS_FG_EXITSTATUS_NO:=255}
 : ${ROUNDY_EXITSTATUS_OK:=$'\uf00C '}
 : ${ROUNDY_EXITSTATUS_NO:=$'\uf00D '}
 
@@ -114,7 +114,6 @@ roundy_precmd() {
 }
 
 roundy_main() {
-  # Setup hooks
   autoload -Uz add-zsh-hook
   add-zsh-hook preexec roundy_preexec
   add-zsh-hook precmd roundy_precmd
