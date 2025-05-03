@@ -8,7 +8,8 @@ fetch.sh
 
 autoload -U colors && colors	# Load colors
 
-
+# Load cached flatpak aliases
+[[ -f ~/.cache/zsh_flatpak_cache.zsh ]] && source ~/.cache/zsh_flatpak_cache.zsh
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000

@@ -3,7 +3,7 @@
 # Alias
 alias q='exit'
 alias v='nvim'
-alias purge='sudo apt purge'
+#alias purge='sudo apt purge'
 alias ls='ls --color'
 alias la='ls -la'
 alias ll='ls -l'

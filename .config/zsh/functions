@@ -19,3 +19,10 @@ zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)	
+
+# Generating flatpak alias cache file
+generate_flatpak_alias_cache() {
+  mkdir -p ~/.cache
+  echo "# Regenerating Flatpak alias cache..."
+  ~/Nextcloud/repo/bin/.dotfiles/.local/bin/.zsh_flatpak_cache_gen.sh > ~/.cache/zsh_flatpak_cache.zsh
+}
