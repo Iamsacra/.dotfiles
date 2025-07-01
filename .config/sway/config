@@ -17,9 +17,9 @@ set $right l
 # preferred aplications
 set $term alacritty
 set $menu wofi --show drun
-set $browser firefox-esr
+set $browser brave-browser
 
-
+include ~/.config/sway/displays.conf
 include /etc/sway/config-vars.d/*
 
 ### Output configuration
@@ -72,7 +72,10 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
     # Start your launcher
     bindsym $mod+d exec $menu
-
+    
+    # Start browser
+    bindsym $mod+b exec $browser
+      
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -142,7 +145,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
+    bindsym $mod+c splith
     bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
@@ -201,7 +204,7 @@ bindsym $mod+r mode "resize"
 ### autoexec
 exec waybar
 exec lxqt-policykit-agent
-
+exec nextcloud
 
 #
 # Status Bar:
@@ -227,4 +230,9 @@ input "type:keyboard" {
     xkb_layout pt
 }
 
-
+input "type:touchpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}

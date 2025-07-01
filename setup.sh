@@ -19,41 +19,43 @@ REAL_HOME=$(eval echo "~$REAL_USER")
 echo "Installing required packages..."
 sudo apt update
 sudo apt install -y \
-  sway swaylock swayidle swaybg swayimg waybar \
+  sway swaylock swayidle swaybg swayimg waybar wdisplays \
   network-manager alacritty wofi fonts-font-awesome pipewire wireplumber \
   pipewire-audio-client-libraries libspa-0.2-bluetooth pavucontrol \
   lxqt-policykit lxappearance qt5ct udisks2 gvfs gvfs-backends xwayland \
   mousepad grim slurp mako-notifier libnotify-bin wl-clipboard xarchiver \
   zsh exa ranger \
-  greetd \
-  git ninja-build cmake gettext meson pkg-config \
-  libgtk-3-dev libjson-c-dev gtk-layer-shell-doc
+  greetd nm-connection-editor
 
-# === Remove old display managers ===
-echo "Removing any old display managers..."
-sudo apt purge -y lightdm
+# === Remove old software ===
+echo "Removing any old software"
+sudo apt purge -y qlipper foot 
 sudo apt autoremove -y
 
-# === Build gtkgreet from source ===
-echo "Cloning and building gtkgreet..."
-git clone https://github.com/kennylevinsen/gtkgreet
-cd gtkgreet
-meson setup build
-ninja -C build
-sudo ninja -C build install
-cd ..
-rm -rf gtkgreet
+# === Ask whether to install tuigreet and greetdMore actions ===
+read -rp "Do you want to install tuigreet and greetd (display manager)? [y/N] " INSTALL_DM
+if [[ "$INSTALL_DM" == "y" || "$INSTALL_DM" == "Y" ]]; then
+  echo "Adding backports and installing tuigreet..."
+  echo "deb http://deb.debian.org/debian bookworm-backports main" | \
+    sudo tee /etc/apt/sources.list.d/backports.list
+  sudo apt update
+  sudo apt install -t bookworm-backports -y tuigreet greetd
 
-# === Configure greetd ===
-echo "Writing greetd configuration..."
-sudo tee /etc/greetd/config.toml > /dev/null <<EOF
+  echo "Enabling greetd login manager..."
+  sudo systemctl enable greetd
+
+  echo "Writing greetd config for user '$REAL_USER'..."
+  cat <<EOF | sudo tee /etc/greetd/config.toml > /dev/null
 [terminal]
 vt = 7
 
 [default_session]
-command = "gtkgreet --cmd sway"
+command = "tuigreet --cmd sway"
 user = "$REAL_USER"
 EOF
+else
+  echo "Skipping tuigreet and greetd installation. You will need to start sway manually or install another display manager."
+fi
 
 # === Optional: create Wayland session file for compatibility ===
 sudo tee /usr/share/wayland-sessions/sway.desktop > /dev/null <<EOF
@@ -92,6 +94,17 @@ if [ "$CURRENT_SHELL" != "/bin/zsh" ]; then
 fi
 
 echo "Setup complete. Sway will start from greetd via gtkgreet after reboot."
+
+# === Gestures ===
+sudo gpasswd -a $REAL_USER input
+echo "Setting up gestures"
+sudo apt-get install wmctrl xdotool
+git clone https://github.com/bulletmark/libinput-gestures.git
+cd libinput-gestures
+sudo ./libinput-gestures-setup install
+libinput-gestures-setup autostart start
+cd ..
+rm -rf libinput-gestures
 
 # === Ask to reboot ===
 read -rp "Reboot now? [y/N] " REBOOT
