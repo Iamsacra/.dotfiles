@@ -86,25 +86,19 @@ done
 ln -sf "$PWD/.zshenv" "$REAL_HOME/.zshenv"
 chown -R "$REAL_USER:$REAL_USER" "$REAL_HOME/.config" "$REAL_HOME/.local" "$REAL_HOME/.zshenv"
 
-# === Set zsh as default shell ===
+# === Set zsh as default shell and clone dependacies ===
 CURRENT_SHELL=$(getent passwd "$REAL_USER" | cut -d: -f7)
 if [ "$CURRENT_SHELL" != "/bin/zsh" ]; then
   echo "Changing default shell for $REAL_USER to zsh..."
   sudo chsh -s /bin/zsh "$REAL_USER"
 fi
 
-echo "Setup complete. Sway will start from greetd via gtkgreet after reboot."
+git clone https://github.com/zsh-users/zsh-autosuggestions
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting
+mv zsh-autosuggestions ~/.config/zsh
+mv fast-syntax-highlighting ~/.config/zsh
 
-# === Gestures ===
-sudo gpasswd -a $REAL_USER input
-echo "Setting up gestures"
-sudo apt-get install wmctrl xdotool
-git clone https://github.com/bulletmark/libinput-gestures.git
-cd libinput-gestures
-sudo ./libinput-gestures-setup install
-libinput-gestures-setup autostart start
-cd ..
-rm -rf libinput-gestures
+echo "Setup complete. Sway will start from greetd via gtkgreet after reboot."
 
 # === Ask to reboot ===
 read -rp "Reboot now? [y/N] " REBOOT
