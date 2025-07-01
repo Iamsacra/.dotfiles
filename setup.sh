@@ -3,49 +3,49 @@
 set -e
 set -u
 
-# DISCLAIMER
-echo "WARNING: This script will install a window manager and a display manager on your system."
-echo "It can overwrite or break existing configurations."
-read -rp "Do you wish to proceed? [y/N] " PROCEED
+# === Intro & Warning ===
+echo "WARNING: This script installs Sway and replaces your login manager with greetd + gtkgreet."
+read -rp "Do you want to proceed? [y/N] " PROCEED
 if [[ "$PROCEED" != "y" && "$PROCEED" != "Y" ]]; then
   echo "Cancelled."
   exit 1
 fi
 
-# Get the real user running the script (even under sudo)
+# === User Detection ===
 REAL_USER="${SUDO_USER:-$USER}"
 REAL_HOME=$(eval echo "~$REAL_USER")
 
-# Install packages
-echo "Installing required packages (including zsh, exa, ranger, sway)..."
+# === Install system packages ===
+echo "Installing required packages..."
 sudo apt update
 sudo apt install -y \
-  sway sway-backgrounds swaylock swayidle light swaybg swayimg waybar \
+  sway swaylock swayidle swaybg swayimg waybar \
   network-manager alacritty wofi fonts-font-awesome pipewire wireplumber \
   pipewire-audio-client-libraries libspa-0.2-bluetooth pavucontrol \
   lxqt-policykit lxappearance qt5ct udisks2 gvfs gvfs-backends xwayland \
   mousepad grim slurp mako-notifier libnotify-bin wl-clipboard xarchiver \
-  zsh exa ranger
+  zsh exa ranger \
+  greetd \
+  git ninja-build cmake gettext meson pkg-config \
+  libgtk-3-dev libjson-c-dev gtk-layer-shell-doc
 
-# Remove unneeded packages
-echo "Removing unnecessary packages..."
-sudo apt purge -y qlipper foot
+# === Remove old display managers ===
+echo "Removing any old display managers..."
+sudo apt purge -y lightdm
 sudo apt autoremove -y
 
-# Add backports for gtkgreet and greetd
-echo "Adding Debian bookworm-backports repository..."
-echo "deb http://deb.debian.org/debian bookworm-backports main" | \
-  sudo tee /etc/apt/sources.list.d/backports.list
-sudo apt update
+# === Build gtkgreet from source ===
+echo "Cloning and building gtkgreet..."
+git clone https://github.com/kennylevinsen/gtkgreet
+cd gtkgreet
+meson setup build
+ninja -C build
+sudo ninja -C build install
+cd ..
+rm -rf gtkgreet
 
-echo "Installing greetd and gtkgreet..."
-sudo apt install -t bookworm-backports -y greetd gtkgreet
-
-echo "Enabling greetd login manager..."
-sudo systemctl enable greetd
-
-# Write greetd config
-echo "Writing greetd config for user '$REAL_USER'..."
+# === Configure greetd ===
+echo "Writing greetd configuration..."
 sudo tee /etc/greetd/config.toml > /dev/null <<EOF
 [terminal]
 vt = 7
@@ -55,7 +55,7 @@ command = "gtkgreet --cmd sway"
 user = "$REAL_USER"
 EOF
 
-# Create sway session entry (optional but useful for compatibility)
+# === Optional: create Wayland session file for compatibility ===
 sudo tee /usr/share/wayland-sessions/sway.desktop > /dev/null <<EOF
 [Desktop Entry]
 Name=Sway
@@ -65,47 +65,39 @@ Type=Application
 DesktopNames=Sway
 EOF
 
-# Symlink .config files
-echo "Linking .config files..."
+# === Enable greetd ===
+sudo systemctl enable greetd
+
+# === Link dotfiles ===
+echo "Linking dotfiles from current directory..."
+
 mkdir -p "$REAL_HOME/.config"
 for item in "$PWD/.config/"*; do
-  name=$(basename "$item")
-  ln -sf "$item" "$REAL_HOME/.config/$name"
+  ln -sf "$item" "$REAL_HOME/.config/$(basename "$item")"
 done
 
-# Symlink .local/bin files
-echo "Linking .local/bin files..."
 mkdir -p "$REAL_HOME/.local/bin"
 for item in "$PWD/.local/bin/"*; do
-  name=$(basename "$item")
-  ln -sf "$item" "$REAL_HOME/.local/bin/$name"
+  ln -sf "$item" "$REAL_HOME/.local/bin/$(basename "$item")"
 done
 
-# Symlink .zshenv
-echo "Linking .zshenv to home directory..."
 ln -sf "$PWD/.zshenv" "$REAL_HOME/.zshenv"
-
-# Set correct permissions
 chown -R "$REAL_USER:$REAL_USER" "$REAL_HOME/.config" "$REAL_HOME/.local" "$REAL_HOME/.zshenv"
 
-# Change default shell to zsh if not already set
+# === Set zsh as default shell ===
 CURRENT_SHELL=$(getent passwd "$REAL_USER" | cut -d: -f7)
 if [ "$CURRENT_SHELL" != "/bin/zsh" ]; then
   echo "Changing default shell for $REAL_USER to zsh..."
   sudo chsh -s /bin/zsh "$REAL_USER"
-else
-  echo "Default shell is already zsh for $REAL_USER"
 fi
 
-echo "Setup complete. Dotfiles linked from repository and greetd configured with gtkgreet."
+echo "Setup complete. Sway will start from greetd via gtkgreet after reboot."
 
-# Ask for reboot
-echo
-read -rp "Do you want to reboot now? [y/N] " REBOOT
+# === Ask to reboot ===
+read -rp "Reboot now? [y/N] " REBOOT
 if [[ "$REBOOT" == "y" || "$REBOOT" == "Y" ]]; then
-  echo "Rebooting..."
   sudo reboot
 else
-  echo "You can reboot later with 'sudo reboot'."
+  echo "You can reboot later using 'sudo reboot'"
 fi
 
