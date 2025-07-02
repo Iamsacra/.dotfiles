@@ -113,8 +113,8 @@
             "critical": 15
         },
         "format": "{icon} {capacity}%",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
+        "format-charging": "  {capacity}%",
+        "format-plugged": "   {capacity}%",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
@@ -125,7 +125,7 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "    {signalStrength}%",
+        "format-wifi": "   {signalStrength}%",
         "format-ethernet": " ",
         "tooltip-format": " ",
         "format-linked": " ",
@@ -142,12 +142,12 @@
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
+            "headphone": "  ",
+            "hands-free": "  ",
+            "headset": "  ",
+            "phone": "  ",
+            "portable": "  ",
+            "car": "  ",
             "default": ["  ", "  ", "  "]
         },
         "on-click": "pavucontrol"
