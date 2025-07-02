@@ -25,7 +25,7 @@ sudo apt install -y \
   lxqt-policykit lxappearance qt5ct udisks2 gvfs gvfs-backends xwayland \
   mousepad grim slurp mako-notifier libnotify-bin wl-clipboard xarchiver \
   zsh exa ranger \
-  greetd nm-connection-editor
+  greetd nm-connection-editor network-manager-applet
 
 # === Remove old software ===
 echo "Removing any old software"
