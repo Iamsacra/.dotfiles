@@ -1,23 +1,9 @@
-[general]
 # alacritty.toml
 # commented lines are the defaults
-# man 5 alacritty (>0.13) for full config manual
 
 import = [
   "~/.config/alacritty/themes/catppuccin-mocha.toml",
 ]
-
-
-[terminal.shell]
-program               = "/usr/bin/zsh"
-args                  = [ "--login", ]
-
-#working_directory     = "None"
-#live_config_reload    = true
-#ipc_socket            = true
-
-#[env]
-#TERM                  = "xterm-256color"
 
 [window]
 #dimensions            = { columns = 0, lines = 0 }
@@ -53,11 +39,11 @@ glyph_offset          = { x = 0, y = 0 }
 #transparent_background_colors = false
 # draw_bold_text_with_bright_colors = true
 
-[bell]
-animation             = "EaseOutExpo"
-duration              = 0
-color                 = "#C0C5CE"
-command               = { program = "notify-send", args = ["alacritty", "bell",] }
+#[bell]
+#animation             = "EaseOutExpo"
+#duration              = 0
+#color                 = "#C0C5CE"
+#command               = { program = "notify-send", args = ["alacritty", "bell",] }
 
 [selection]
 #semantic_escape_chars = ",│‘|:"' ()[]{}<>t"

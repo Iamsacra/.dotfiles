@@ -1,10 +1,20 @@
 # Source Files
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/alias" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/alias"
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/flatpakalias" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/flatpakalias"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/functions" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/functions"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/prompt" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/prompt"
 
-fetch.sh
+show_prompt_header() {
+  local time=$(date '+%A %H:%M %Z')
+  local weather_raw=$(inxi -w | grep 'Report:' | sed 's/Report: //')
+  local weather=$(echo "$weather_raw" | sed -E 's/ *temperature: *//; s/ *conditions: */ - /')
+
+  printf "\n\e[1;34m────────── Time and Weather ─────────\e[0m\n"
+  printf " Time:    %s\n" "$time"
+  printf " Weather: %s\n" "$weather"
+  printf "\e[1;34m─────────────────────────────────────\e[0m\n\n"
+}
+
+show_prompt_header
 
 autoload -U colors && colors	# Load colors
 

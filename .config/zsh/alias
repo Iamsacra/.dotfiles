@@ -8,7 +8,7 @@ alias ls='ls --color'
 alias la='ls -la'
 alias ll='ls -l'
 alias py='python3'
-alias source_all='source ~/.zshenv && source ~/.config/zsh/.zshrc && source ~/.config/zsh/alias && source ~/.config/zsh/flatpakalias && source ~/.config/zsh/functions'
+alias source_all='source ~/.zshenv && source ~/.config/zsh/.zshrc && source ~/.config/zsh/alias && source ~/.config/zsh/functions'
 
 # Complete update system
 if command -v apt >/dev/null 2>&1; then
@@ -86,25 +86,21 @@ backup() {
         return 1
     fi
   
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/Nextcloud "$location/Backups" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/Downloads "$location/Backups" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/Desktop "$location/Backups" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.vscode "$location/Backups" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.dotnet "$location/Backups" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/Games "$location/Backups/.local" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/share "$location/Backups/.local" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/state "$location/Backups/.local" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/tmp "$location/Backups/.local" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/VMshare "$location/Backups/.local" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.local/history "$location/Backups/.local" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.atlauncher.ATLauncher "$location/Backups/.var/app" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/com.realm667.Wolfenstein_Blade_of_Agony "$location/Backups/.var/app" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/md.obsidian.Obsidian "$location/Backups/.var/app" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/net.lutris.Lutris "$location/Backups/.var/app" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.diasurgical.DevilutionX "$location/Backups/.var/app" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.gnome.TwentyFortyEight "$location/Backups/.var/app" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.kde.kmymoney "$location/Backups/.var/app" &&
-    rsync -r -t -p -o -g -v --progress --delete -s /home/sacra/.var/app/org.zdoom.GZDoom "$location/Backups/.var/app"
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/Nextcloud "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/Downloads "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.vscode-oss "$location/Backups" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.local/Games "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.local/share/fonts "$location/Backups/.local/share" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.local/share/ssh "$location/Backups/.local/share" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.local/tmp "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.local/VMshare "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.local/history "$location/Backups/.local" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.var/app/com.atlauncher.ATLauncher "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.var/app/com.realm667.Wolfenstein_Blade_of_Agony "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.var/app/org.diasurgical.DevilutionX "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.var/app/org.gnome.TwentyFortyEight "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.var/app/org.kde.kmymoney "$location/Backups/.var/app" &&
+    rsync -r -t -p -o -g -v --progress --delete -s $HOME/.var/app/org.zdoom.GZDoom "$location/Backups/.var/app"
 }
 
 

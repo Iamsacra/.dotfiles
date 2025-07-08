@@ -1,17 +1,17 @@
 #!/bin/zsh
 
-
 # Paths
 export PATH="$HOME/.local/share/flatpak/exports/bin:$PATH"
 export PATH="$HOME/.local/Applications:$PATH"
 export PATH="/var/lib/flatpak/exports/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/share/bin:$PATH"
+export PATH="$HOME/.local/scripts:$PATH"
+export XDG_DATA_DIRS=/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
 
 
 # Default programs
-#export EDITOR="nvim"
-export TERMINAL="konsole"
+export EDITOR="nvim"
+export TERMINAL="alacritty"
 export BROWSER="brave-browser"
 
 export XDG_CONFIG_HOME="$HOME/.config"
