@@ -26,7 +26,7 @@ fi
 
 DEST="$SCREENSHOT_DIR/screenshot_$(date +%d-%m-%Y_%H-%M-%S).png"
 cp "$TEMPFILE" "$DEST"
-wl-copy < "$TEMPFILE"
+wl-copy <"$TEMPFILE"
 rm "$TEMPFILE"
 
 notify-send --expire-time=5000 "Screenshot Saved & Copied" "Saved to: $DEST"
